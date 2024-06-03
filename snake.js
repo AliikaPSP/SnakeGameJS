@@ -18,6 +18,9 @@ var snakeBody = [];
 var foodX;
 var foodY;
 
+//score
+var score = 0;
+
 var gameOver = false;
 
 window.onload = function() {
@@ -44,6 +47,7 @@ function update() {
 
     if (snakeX == foodX && snakeY == foodY) {
         snakeBody.push([foodX, foodY]);
+        score++; // Increase score
         placeFood();
     }
 
@@ -110,6 +114,11 @@ function update() {
             alert("Game Over");
         }
     }
+
+    // Draw the score
+    context.fillStyle = "white";
+    context.font = "20px Arial";
+    context.fillText("Score: " + score, 10, 20);
 }
 
 function drawMouse(x, y) {
