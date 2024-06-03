@@ -23,11 +23,22 @@ var score = 0;
 
 var gameOver = false;
 
+//snake color
+var snakeColor;
+
 window.onload = function() {
     board = document.getElementById("board");
     board.height = rows * blockSize;
     board.width = cols * blockSize;
     context = board.getContext("2d"); //used for drawing on the board
+
+    // Prompt the player to choose a snake color
+    var colorChoice = prompt("Choose your snake color: type 'lime' for Lime Snake or 'pink' for Pink Snake").toLowerCase();
+    if (colorChoice === "pink") {
+        snakeColor = "pink";
+    } else {
+        snakeColor = "lime"; // default color
+    }
 
     placeFood();
     document.addEventListener("keyup", changeDirection);
@@ -39,7 +50,8 @@ function update() {
         return;
     }
 
-    context.fillStyle = "black";
+    // Set background to a sandy color
+    context.fillStyle = "#C2B280"; // sandy color
     context.fillRect(0, 0, board.width, board.height);
 
     // Draw food as a pixel mouse
@@ -66,8 +78,8 @@ function update() {
         snakeX + blockSize / 2, snakeY + blockSize / 2, blockSize / 4,
         snakeX + blockSize / 2, snakeY + blockSize / 2, blockSize / 2
     );
-    headGradient.addColorStop(0, "lime");
-    headGradient.addColorStop(1, "green");
+    headGradient.addColorStop(0, snakeColor);
+    headGradient.addColorStop(1, snakeColor === "lime" ? "green" : "darkred");
 
     context.fillStyle = headGradient;
     context.beginPath();
@@ -93,8 +105,8 @@ function update() {
             snakeBody[i][0] + blockSize / 2, snakeBody[i][1] + blockSize / 2, blockSize / 4,
             snakeBody[i][0] + blockSize / 2, snakeBody[i][1] + blockSize / 2, blockSize / 2
         );
-        segmentGradient.addColorStop(0, "lime");
-        segmentGradient.addColorStop(1, "green");
+        segmentGradient.addColorStop(0, snakeColor);
+        segmentGradient.addColorStop(1, snakeColor === "lime" ? "green" : "darkred");
 
         context.fillStyle = segmentGradient;
         context.beginPath();
@@ -116,7 +128,7 @@ function update() {
     }
 
     // Draw the score
-    context.fillStyle = "white";
+    context.fillStyle = "black";
     context.font = "20px Arial";
     context.fillText("Score: " + score, 10, 20);
 }
